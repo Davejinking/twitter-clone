@@ -50,7 +50,7 @@
                 </button>
             </div>
         </div>
-        <!-- 나머지 메인화면 생성 -->
+        <!-- 나머지 메인화면 생성 --> 
         <div class="flex-1 bg-red-200"></div>
     </div>
 </template>
