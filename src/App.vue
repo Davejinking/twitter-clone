@@ -22,54 +22,57 @@
         overflow-y-auto : 스크롤바
         relative:
         absolute:
+        h-screen:
+        container: 여백줄이기?
+        mx-auto: 여백을 가운데로 하게만드는?
 
 -->
 <template>
-    <div class="flex h-screen">
+    <div class="flex h-screen container mx-auto">
         <!-- 사이드 메뉴 -->
-        <div class="w-1/4 pt-5 ml-10 flex flex-col justify-between border-r border-gray-100">
+        <div class="w-20 lg:w-1/4 pt-5 lg:ml-10 flex flex-col justify-between border-r border-gray-100">
             <div class="flex flex-col items-center lg:items-start">
                 <!-- twitter아이콘 -->
                 <i class="fab fa-twitter text-3xl text-primary lg:ml-4 mb-3"></i>
                 <!-- 사이드메뉴 -->
                 <div class="flex flex-col items-start space-y-1">
                     <!-- 홈 -->
-                    <div class="hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full">
+                    <div class="hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full cursor-pointer">
                         <i class="fas fa-home fa-fw text-2xl"></i>
                         <span class="ml-3 text-lg hidden lg:inline-block">홈</span>
                     </div>
                     <!-- 탐색하기 -->
-                    <div class="hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full">
+                    <div class="hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full cursor-pointer">
                         <i class="fas fa-hashtag  fa-fw text-2xl"></i>
                         <span class="ml-3 text-lg hidden lg:inline-block">탐색하기</span>
                     </div>
                     <!-- 알림 -->
-                    <div class="hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full">
+                    <div class="hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full cursor-pointer">
                         <i class="fas fa-bell fa-fw text-2xl"></i>
                         <span class="ml-3 text-lg hidden lg:inline-block">알림</span>
                     </div>
                     <!-- 쪽지 -->
-                    <div class="hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full">
+                    <div class="hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full cursor-pointer">
                         <i class="fas fa-envelope fa-fw text-2xl"></i>
                         <span class="ml-3 text-lg hidden lg:inline-block">쪽지</span>
                     </div>
                     <!-- 북마크 -->
-                    <div class="hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full">
+                    <div class="hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full cursor-pointer">
                         <i class="fas fa-bookmark fa-fw text-2xl"></i>
                         <span class="ml-3 text-lg hidden lg:inline-block">북마크</span>
                     </div>
                     <!-- 리스트 -->
-                    <div class="hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full">
+                    <div class="hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full cursor-pointer">
                         <i class="fas fa-list-alt fa-fw text-2xl"></i>
                         <span class="ml-3 text-lg hidden lg:inline-block">리스트</span>
                     </div>
                     <!-- 프로필 -->
-                    <div class="hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full">
+                    <div class="hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full cursor-pointer">
                         <i class="fas fa-user fa-fw text-2xl"></i>
                         <span class="ml-3 text-lg hidden lg:inline-block">프로필</span>
                     </div>
                     <!-- 더 보기 -->
-                    <div class="hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full">
+                    <div class="hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full cursor-pointer">
                         <i class="fas fa-ellipsis-h fa-fw text-2xl"></i>
                         <span class="ml-3 text-lg hidden lg:inline-block">더 보기</span>
                     </div>
@@ -114,7 +117,7 @@
                 <!-- 메인 섹션(외부) --> 
                 <div class="flex-1 border-r border-gray-100 overflow-y-auto">
                     <!-- 메인 섹션(내부) --> 
-                    <div class=" flex flex-col">
+                    <div class="flex flex-col">
                         <!-- 메인 타이틀(home) --> 
                         <div class="border-b border-gray-100 px-3 py-2 font-bold text-lg">홈</div>
 
