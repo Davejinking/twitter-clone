@@ -137,7 +137,7 @@
                     </div>
                 </div>
 
-                <!-- 트렌드 섹션 --> 
+                <!-- 트렌드 섹션  --> 
                 <div class="w-2/5">trend</div>
             </div>
         </div>
