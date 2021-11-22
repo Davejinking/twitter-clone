@@ -15,6 +15,14 @@
                     justify-between: 각 항목 사이에 동일한 양의 공간이 있도록 컨테이너의 기본 축을 따라 항목을 정렬
                     사이드메뉴에서 아이콘과 트윗버튼을 하나의 태그로 묶어서 아래에있는 프로필과 별개로 나누어 사이가 벌어지도록 표시하기위해
                     justify-between를 사용했다.
+                    justify-center:  항목 사이에 동일한 양의 공간이 있도록 컨테이너의 기본 축을 따라 가운데로 항목을 정렬
+                    cursor-pointer: 마우스 선택효과
+                    hover:opacity-80: 마우스 이벤트시 색 조절효과
+                    hidden: 비표시하기
+                    lg:block : lg크기일때 블록으로 만든다
+                    lg:flex : lg크기일때 플렉스로 만든다
+                    fa-plus : 플러스 아이콘
+
                 -->
                 <div class="flex flex-col items-start space-y-1">
                     <div class="hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full">
