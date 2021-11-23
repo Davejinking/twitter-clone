@@ -43,18 +43,16 @@
             v-for="trend in 3" :key="trend"
         >
             <div class="flex items-center">
-                <div>
-                    <img 
-                        src="http://picsum.photos/200" 
-                        class="w-12 h-12 rounded-full mr-2"
-                    >
-                </div>
+                <img 
+                    src="http://picsum.photos/200" 
+                    class="w-12 h-12 rounded-full mr-2"
+                >
                 <div class="flex-1 flex flex-col">
-                    <div class="font-bold text-lg">야마자키홍</div>
-                    <div class="text-gray-500">@yamajyaki_Hong</div>
+                    <div class="font-bold">야마자키홍</div>
+                    <div class="text-gray-500 text-sm">@yamajyaki</div>
                 </div>
                 <div>
-                    <button class="border-2 border-primary hover:bg-bule-100 px-4 py-1 rounded-full text-primary">
+                    <button class="border-2 border-primary hover:bg-bule-100 px-2 py-1 rounded-full text-primary text-sm">
                         팔로우
                     </button>
                 </div>
