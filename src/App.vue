@@ -113,17 +113,16 @@
 
         <!-- 메인 메뉴 --> 
         <div class="flex-1 flex h-screen">
-            <Notifications />
-            <Trends />
+            <Messages />
         </div>
     </div>
 </template>
 
 <script>
-import Notifications from './pages/Notifications.vue'
-import Trends from './components/Trends.vue'
+import Messages from './pages/Messages.vue'
+
 export default {    
-    components: { Notifications ,Trends },
+    components: { Messages },
     setup() {},
 }
 </script>
