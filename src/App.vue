@@ -12,8 +12,8 @@
         cursor-pointer: 마우스 선택효과
         hover:opacity-80: 마우스 이벤트시 색 조절효과
         hidden: 비표시하기
-        lg:block : lg크기일때 블록으로 만든다
-        lg:flex : lg크기일때 플렉스로 만든다
+        xl:block : xl크기일때 블록으로 만든다
+        xl:flex : xl크기일때 플렉스로 만든다
         fa-plus : 플러스 아이콘
         border-r : 
         border-gray-100 :
@@ -30,82 +30,82 @@
 <template>
     <div class="flex h-screen container mx-auto">
         <!-- 사이드 메뉴 -->
-        <div class="w-20 lg:w-1/4 pt-5 lg:ml-10 flex flex-col justify-between border-r border-gray-100">
-            <div class="flex flex-col items-center lg:items-start">
+        <div class="w-20 xl:w-1/4 pt-5 xl:ml-10 flex flex-col justify-between border-r border-gray-100">
+            <div class="flex flex-col items-center xl:items-start">
                 <!-- twitter아이콘 -->
-                <i class="fab fa-twitter text-3xl text-primary lg:ml-4 mb-3"></i>
+                <i class="fab fa-twitter text-3xl text-primary xl:ml-4 mb-3"></i>
                 <!-- 사이드메뉴 -->
                 <div class="flex flex-col items-start space-y-1">
                     <!-- 홈 -->
                     <div class="hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full cursor-pointer">
                         <i class="fas fa-home fa-fw text-2xl"></i>
-                        <span class="ml-3 text-lg hidden lg:inline-block">홈</span>
+                        <span class="ml-3 text-xl hidden xl:inline-block">홈</span>
                     </div>
                     <!-- 탐색하기 -->
                     <div class="hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full cursor-pointer">
                         <i class="fas fa-hashtag  fa-fw text-2xl"></i>
-                        <span class="ml-3 text-lg hidden lg:inline-block">탐색하기</span>
+                        <span class="ml-3 text-xl hidden xl:inline-block">탐색하기</span>
                     </div>
                     <!-- 알림 -->
                     <div class="hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full cursor-pointer">
                         <i class="fas fa-bell fa-fw text-2xl"></i>
-                        <span class="ml-3 text-lg hidden lg:inline-block">알림</span>
+                        <span class="ml-3 text-xl hidden xl:inline-block">알림</span>
                     </div>
                     <!-- 쪽지 -->
                     <div class="hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full cursor-pointer">
                         <i class="fas fa-envelope fa-fw text-2xl"></i>
-                        <span class="ml-3 text-lg hidden lg:inline-block">쪽지</span>
+                        <span class="ml-3 text-xl hidden xl:inline-block">쪽지</span>
                     </div>
                     <!-- 북마크 -->
                     <div class="hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full cursor-pointer">
                         <i class="fas fa-bookmark fa-fw text-2xl"></i>
-                        <span class="ml-3 text-lg hidden lg:inline-block">북마크</span>
+                        <span class="ml-3 text-xl hidden xl:inline-block">북마크</span>
                     </div>
                     <!-- 리스트 -->
                     <div class="hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full cursor-pointer">
                         <i class="fas fa-list-alt fa-fw text-2xl"></i>
-                        <span class="ml-3 text-lg hidden lg:inline-block">리스트</span>
+                        <span class="ml-3 text-xl hidden xl:inline-block">리스트</span>
                     </div>
                     <!-- 프로필 -->
                     <div class="hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full cursor-pointer">
                         <i class="fas fa-user fa-fw text-2xl"></i>
-                        <span class="ml-3 text-lg hidden lg:inline-block">프로필</span>
+                        <span class="ml-3 text-xl hidden xl:inline-block">프로필</span>
                     </div>
                     <!-- 더 보기 -->
                     <div class="hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full cursor-pointer">
                         <i class="fas fa-ellipsis-h fa-fw text-2xl"></i>
-                        <span class="ml-3 text-lg hidden lg:inline-block">더 보기</span>
+                        <span class="ml-3 text-xl hidden xl:inline-block">더 보기</span>
                     </div>
                 </div>
 
                 <!-- tweet 버튼 -->
-                <div class="w-full lg:pr-3 flex justify-center">
-                    <button class=" mt-3 bg-primary text-white lg:w-full w-12 h-12 rounded-full hover:bg-dark">
-                        <span class="hidden lg:block">트윗</span>
-                        <i class="fas fa-plus lg:hidden"></i>
+                <div class="w-full xl:pr-3 flex justify-center">
+                    <button class=" mt-3 bg-primary text-white xl:w-full w-12 h-12 rounded-full hover:bg-dark">
+                        <span class="hidden xl:block">트윗</span>
+                        <i class="fas fa-plus xl:hidden"></i>
                     </button>
                 </div>
             </div>
 
             <!-- 프로필 화면 -->
-            <div class="lg:pr-3 mb-3">
+            <div class="xl:pr-3 mb-3">
                 <!-- 프로필 이미지(화면 크기 기본형) -->
-                <button class="hidden lg:flex mt-3 px-2 py-1 w-full h-12 rounded-full hover:bg-blue-50 items-center">
+                <button class="hidden xl:flex mt-3 px-2 py-1 w-full h-12 rounded-full hover:bg-blue-50 items-center">
                     <!-- 프로필 이미지 -->
                     <img src="http://picsum.photos/100" class="w-10 h-10 rounded-full">
 
                     <!-- 프로필 상세내용(메일,이름) -->
-                    <div class="ml-2 hidden lg:block">
+                    <div class="ml-2 hidden xl:block">
                         <div class="text-sm font-bole">mage.com</div>
                         <div class="text-xs text-gray-500 text-left">@mage</div>
                     </div>
 
                     <!-- 프로필(옵션) -->
-                    <i class="ml-auto fas fa-ellipsis-h fa-fw text-xs hidden lg:block"></i>
+                    <i class="ml-auto fas fa-ellipsis-h fa-fw text-xs hidden xl:block"></i>
                 </button>
 
                 <!-- 프로필 이미지(화면 크기 반응형) -->
-                <div class="lg:hidden flex justify-center">
+                <div class="xl:hidden flex justify-center">
                     <img src="http://picsum.photos/100" class="w-10 h-10 rounded-full cursor-pointer hover:opacity-80">
                 </div>
             </div>
@@ -113,16 +113,16 @@
 
         <!-- 메인 메뉴 --> 
         <div class="flex-1 flex h-screen">
-            <Messages />
+            <Profile />
         </div>
     </div>
 </template>
 
 <script>
-import Messages from './pages/Messages.vue'
+import Profile from './pages/Profile.vue'
 
 export default {    
-    components: { Messages },
+    components: { Profile },
     setup() {},
 }
 </script>

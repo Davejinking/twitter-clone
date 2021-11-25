@@ -6,3 +6,7 @@
 button {
   @apply focus:outline-none;
 }
+
+.border-color {
+  @apply border-gray-100;
+}
