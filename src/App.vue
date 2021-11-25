@@ -25,6 +25,7 @@
         h-screen:
         container: 여백줄이기?
         mx-auto: 여백을 가운데로 하게만드는?
+        router-link
 
 -->
 <template>
@@ -37,45 +38,45 @@
                 <!-- 사이드메뉴 -->
                 <div class="flex flex-col items-start space-y-1">
                     <!-- 홈 -->
-                    <div class="hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full cursor-pointer">
+                    <router-link to="/" class="hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full cursor-pointer">
                         <i class="fas fa-home fa-fw text-2xl"></i>
                         <span class="ml-3 text-xl hidden xl:inline-block">홈</span>
-                    </div>
+                    </router-link>
                     <!-- 탐색하기 -->
-                    <div class="hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full cursor-pointer">
+                    <router-link to="/" class="hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full cursor-pointer">
                         <i class="fas fa-hashtag  fa-fw text-2xl"></i>
                         <span class="ml-3 text-xl hidden xl:inline-block">탐색하기</span>
-                    </div>
+                    </router-link>
                     <!-- 알림 -->
-                    <div class="hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full cursor-pointer">
+                    <router-link to="/notification" class="hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full cursor-pointer">
                         <i class="fas fa-bell fa-fw text-2xl"></i>
                         <span class="ml-3 text-xl hidden xl:inline-block">알림</span>
-                    </div>
+                    </router-link>
                     <!-- 쪽지 -->
-                    <div class="hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full cursor-pointer">
+                    <router-link to="/messages" class="hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full cursor-pointer">
                         <i class="fas fa-envelope fa-fw text-2xl"></i>
                         <span class="ml-3 text-xl hidden xl:inline-block">쪽지</span>
-                    </div>
+                    </router-link>
                     <!-- 북마크 -->
-                    <div class="hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full cursor-pointer">
+                    <router-link to="/" class="hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full cursor-pointer">
                         <i class="fas fa-bookmark fa-fw text-2xl"></i>
                         <span class="ml-3 text-xl hidden xl:inline-block">북마크</span>
-                    </div>
+                    </router-link>
                     <!-- 리스트 -->
-                    <div class="hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full cursor-pointer">
+                    <router-link to="/" class="hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full cursor-pointer">
                         <i class="fas fa-list-alt fa-fw text-2xl"></i>
                         <span class="ml-3 text-xl hidden xl:inline-block">리스트</span>
-                    </div>
+                    </router-link>
                     <!-- 프로필 -->
-                    <div class="hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full cursor-pointer">
+                    <router-link to="/profile" class="hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full cursor-pointer">
                         <i class="fas fa-user fa-fw text-2xl"></i>
                         <span class="ml-3 text-xl hidden xl:inline-block">프로필</span>
-                    </div>
+                    </router-link>
                     <!-- 더 보기 -->
-                    <div class="hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full cursor-pointer">
+                    <router-link to="/" class="hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full cursor-pointer">
                         <i class="fas fa-ellipsis-h fa-fw text-2xl"></i>
                         <span class="ml-3 text-xl hidden xl:inline-block">더 보기</span>
-                    </div>
+                    </router-link>
                 </div>
 
                 <!-- tweet 버튼 -->
@@ -113,18 +114,13 @@
 
         <!-- 메인 메뉴 --> 
         <div class="flex-1 flex h-screen">
-            <Profile />
+            <!-- router view 설정 -->
+            <router-view />
         </div>
     </div>
 </template>
 
 <script>
-import Profile from './pages/Profile.vue'
 
-export default {    
-    components: { Profile },
-    setup() {},
-}
+export default {}
 </script>
-
-<style></style>

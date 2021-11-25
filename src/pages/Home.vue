@@ -27,7 +27,7 @@
             </div>
 
             <!-- 트윗 내용 --> 
-            <Tweet />
+            <Tweet v-for="tweet in 5" key:="tweet" />
         </div>
     </div>
     <!-- 트렌드 섹션  --> 
