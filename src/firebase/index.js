@@ -16,3 +16,6 @@ const firebaseConfig = {
   export const auth = firebase.auth()
   export const db = firebase.firestore()
   export const stroage = firebase.storage()
+
+  // 유저정보
+  export const USER_COLEECTION = db.collection("users")
