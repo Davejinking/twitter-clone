@@ -1,6 +1,5 @@
 1.파이어베이스설치
- npm install -g firebase-tools
- 또는 sudo npm install -g firebase-tools
+ npm install firebase@8.2.7
 
 2.구글 어카운트 연계
  firebase login
