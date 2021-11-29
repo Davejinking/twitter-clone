@@ -5,37 +5,34 @@ import Messages from '../pages/Messages.vue'
 import Profile from '../pages/Profile.vue'
 import Register from '../pages/Register.vue'
 import Login from '../pages/Login.vue'
+import store from '../store'
 
-// 라우트 상세정의
 const routes = [
-    { path: '/', component: Home, title: '홈', icon: 'fas fa-home fa-fw text-2xl', meta: { isMenu: true, layout: 'DefaultLayout' }},
-    { path: '/', component: Home, title: '탐색하기', icon: 'fas fa-hashtag fa-fw text-2xl', meta: { isMenu: true, layout: 'DefaultLayout' }},
-    { path: '/notification', component: Notifications, title: '알림', icon: 'fas fa-bell fa-fw text-2xl' , meta: { isMenu: true, layout: 'DefaultLayout' }},
-    { path: '/messages', component: Messages, title: '쪽지', icon: 'fas fa-envelope fa-fw text-2xl', meta: { isMenu: true, layout: 'DefaultLayout'  }},
-    { path: '/', component: Messages, title: '북마크', icon: 'fas fa-bookmark fa-fw text-2xl', meta: { isMenu: true, layout: 'DefaultLayout'  }},
-    { path: '/', component: Messages, title: '리스트', icon: 'fas fa-list-alt fa-fw text-2xl', meta: { isMenu: true, layout: 'DefaultLayout'  }},
-    { path: '/profile', component: Profile, title: '프로필', icon: 'fas fa-user fa-fw text-2xl', meta: { isMenu: true, layout: 'DefaultLayout'  }},
-    { path: '/', component: Messages, title: '더보기', icon: 'fas fa-ellipsis-h fa-fw text-2xl', meta: { isMenu: true, layout: 'DefaultLayout'  }},
-
-    // TODo 화면 레이아웃이 깨지는데 회원가입 로그인 항목 비표시면은 라우츠를 다른걸로 정의해서 사용해되는거아님?
-    // 회원가입
-    { path: '/register', component: Register, meta: { isMenu: false, layout: 'EmptyLayout' }},
-    // 로그인
-    { path: '/Login', component: Login, meta: { isMenu: false, layout: 'EmptyLayout' }},
+  { path: '/', component: Home, title: '홈', icon: 'fas fa-home fa-fw text-2xl', meta: { isMenu: true, layout: 'DefaultLayout', requireAuth: true } },
+  { path: '/', component: Home, title: '탐색하기', icon: 'fas fa-hashtag fa-fw text-2xl', meta: { isMenu: true, layout: 'DefaultLayout', requireAuth: true } },
+  { path: '/notifications', component: Notifications, title: '알림', icon: 'far fa-bell fa-fw text-2xl', meta: { isMenu: true, layout: 'DefaultLayout', requireAuth: true } },
+  { path: '/messages', component: Messages, title: '쪽지', icon: 'far fa-envelope fa-fw text-2xl', meta: { isMenu: true, layout: 'DefaultLayout', requireAuth: true } },
+  { path: '/', component: Messages, title: '북마크', icon: 'far fa-bookmark fa-fw text-2xl', meta: { isMenu: true, layout: 'DefaultLayout', requireAuth: true } },
+  { path: '/', component: Messages, title: '리스트', icon: 'far fa-list-alt fa-fw text-2xl', meta: { isMenu: true, layout: 'DefaultLayout', requireAuth: true } },
+  { path: '/profile', component: Profile, title: '프로필', icon: 'far fa-user fa-fw text-2xl', meta: { isMenu: true, layout: 'DefaultLayout', requireAuth: true } },
+  { path: '/', component: Messages, title: '더보기', icon: 'fas fa-ellipsis-h fa-fw text-2xl', meta: { isMenu: true, layout: 'DefaultLayout', requireAuth: true } },
+  { path: '/register', component: Register, meta: { isMenu: false, layout: 'EmptyLayout' } },
+  { path: '/login', component: Login, meta: { isMenu: false, layout: 'EmptyLayout' } },
 ]
 
-// 라우터 생성
 const router = createRouter({
-    history: createWebHistory(),
-    routes,
+  history: createWebHistory(),
+  routes,
 })
 
-router.beforeEach((from, to, next) => {
-    // 인증이 없을경우
-    // router.push('/login')
-    // 인증을 받아을경우
-    next()
+// navigation guard
+router.beforeEach((to, from, next) => {
+  const currentUser = store.state.user
+  const requireAuth = to.matched.some((record) => record.meta.requireAuth)
+  // not authenticated
+  if (requireAuth && !currentUser) next('/login')
+  // authenticated
+  else next()
 })
 
-// router를 내보내기
 export default router

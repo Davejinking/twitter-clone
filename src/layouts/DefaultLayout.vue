@@ -29,7 +29,7 @@
 
 -->
 <template>
-    <div class="flex h-screen container mx-auto">
+    <div class="flex h-screen container mx-auto relative">
         <!-- 사이드 메뉴 -->
         <div class="w-20 xl:w-1/4 pt-5 xl:ml-10 flex flex-col justify-between border-r border-gray-100">
             <div class="flex flex-col items-center xl:items-start">
@@ -48,8 +48,6 @@
                         <span class="ml-3 text-xl hidden xl:inline-block">{{ route.title }}</span>
                     </div>
                     </router-link>
-
-                    
                 </div>
 
                 <!-- tweet 버튼 -->
@@ -62,7 +60,7 @@
             </div>
 
             <!-- 프로필 화면 -->
-            <div class="xl:pr-3 mb-3">
+            <div class="xl:pr-3 mb-3 relative" @click="showProfileDropdown = true">
                 <!-- 프로필 이미지(화면 크기 기본형) -->
                 <button class="hidden xl:flex mt-3 px-2 py-1 w-full h-12 rounded-full hover:bg-blue-50 items-center">
                     <!-- 프로필 이미지 -->
@@ -90,22 +88,43 @@
             <!-- router view 설정 -->
             <router-view />
         </div>
+        <!-- 프로필 드롭다운 메뉴 -->
+        <div class="absolute bottom-20 left-12 shadow rounded-lg w-60 bg-white" v-if="showProfileDropdown" @click="showProfileDropdown = false">
+            <button class="hover:bg-gray-50 border-b border-gray-100 flex p-3 w-full items-center">
+            <img src="http://picsum.photos/200" class="w-10 h-10 rounded-full" />
+            <div class="ml-2">
+                <div class="font-bold text-sm">mage@mage.com</div>
+                <div class="text-left text-gray-500 text-sm">@mage</div>
+            </div>
+            <i class="fas fa-check text-primary ml-auto"></i>
+            </button>
+            <button class="p-3 hover:bg-gray-50 w-full text-left text-sm" @click="onLogout">@mage 계정에서 로그아웃</button>
+        </div>
     </div>
 </template>
 
 <script>
 import { ref, onBeforeMount } from 'vue'
 import router from '../router'
+import { auth } from '../firebase'
+import store from '../store'
 
 export default {
-    setup() {
-        const routes = ref([])
+  setup() {
+    const routes = ref([])
+    const showProfileDropdown = ref(false)
 
-        onBeforeMount(() => {
-            routes.value = router.options.routes
-        })
-
-        return { routes }
-    },
+    // 로그아웃
+    const onLogout = async () => {
+      await auth.signOut()
+      store.commit('SET_USER', null)
+      await router.replace('/login')
+    }
+    // 값저장
+    onBeforeMount(() => {
+      routes.value = router.options.routes
+    })
+    return { routes, showProfileDropdown, onLogout }
+  },
 }
 </script>
