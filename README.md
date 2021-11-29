@@ -12,7 +12,7 @@
 
 5.Select a default Firebase project for this directory: 대상프로젝트
 
-6. 나머지는 디폴트설정
+6.나머지는 디폴트설정
 
 7.빌드실행
  npm run build
