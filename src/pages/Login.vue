@@ -10,7 +10,7 @@
     <span class="text-2xl font-bold">마게촌 로그인</span>
     <input @keyup.enter="onLogin" v-model="email" type="text" class="rounded w-96 px-4 py-3 border border-gray-300 focus:ring-2 focus:border-primary" foucs:outline-none placeholder="이메일">
     <input @keyup.enter="onLogin" v-model="password" type="password" class="rounded w-96 px-4 py-3 border border-gray-300 focus:ring-2 focus:border-primary" foucs:outline-none placeholder="비밀번호">
-    <button v-if="loading" class="w-96 rounded bg-litgh text-white py-3">로그인 중입니다.</button>
+    <button v-if="loading" class="w-96 rounded bg-light text-white py-3">로그인 중입니다.</button>
     <button v-else sclass="w-96 rounded bg-primary text-white py-3 hover:bg-dark" @click="onLogin">로그인</button>
     <router-link to="/register">
         <button class="text-primary">계정이 없으신가요? 회원가입 하기</button>
@@ -32,6 +32,11 @@ export default {
         const router = useRouter()
 
         const onLogin = async () => {
+            if(!email.value || !password.value) {
+                alert('이메일, 비밀번호를 모두 입력해주세요.')
+                return
+            }
+            // 성공시
             try {
                 loading.value = true
                 const { user } = await auth.signInWithEmailAndPassword(email.value, password.value)
@@ -54,6 +59,7 @@ export default {
                         alert(e.message)
                         break
                 }
+            // 마지막 처리
             } finally {
                 loading.value = false
             }

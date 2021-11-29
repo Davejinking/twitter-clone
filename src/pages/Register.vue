@@ -36,6 +36,10 @@ export default {
 
         // 등록처리
         const onRegister = async () => {
+            if(!username.value || !email.value || !password.value) {
+                alert('아이디, 이메일, 비밀번호를 모두 입력해주세요.')
+                return
+            }
             try {
                 loading.value = true
                 const { user } = await auth.createUserWithEmailAndPassword(email.value, password.value)
@@ -53,7 +57,20 @@ export default {
                 router.push('/login')
 
             } catch(e) {
-                alert(e.message)
+                switch (e.code) {
+                    case 'auth/invalid-email':
+                        alert('이메일을 바르게 입력해주세요')
+                        break
+                    case 'auth/weak-password':
+                        alert('비밀번호가 틀립니다.')
+                        break
+                    case 'auth/email-already-in-use':
+                        alert('이미 가입되어 있는 이메일 입니다.')
+                        break
+                    default:
+                        alert('회원가입 실패')
+                        break
+                }
             } finally {
                 loading.value = false
             }
