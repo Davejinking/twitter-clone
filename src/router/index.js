@@ -30,5 +30,12 @@ const router = createRouter({
     routes,
 })
 
+router.beforeEach((from, to, next) => {
+    // 인증이 없을경우
+    // router.push('/login')
+    // 인증을 받아을경우
+    next()
+})
+
 // router를 내보내기
 export default router

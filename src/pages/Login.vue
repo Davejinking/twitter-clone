@@ -20,9 +20,10 @@
 </template>
 
 <script>
-import { ref } from 'vue'
-import { auth } from '../firebase'
+import { ref, onMounted } from 'vue'
+import { auth, USER_COLEECTION } from '../firebase'
 import { useRouter } from 'vue-router'
+import store from '../store'
 
 export default {
     setup() {
@@ -30,6 +31,10 @@ export default {
         const password = ref('')
         const loading = ref(false)
         const router = useRouter()
+
+        onMounted(() => {
+            console.log(store.state.user)
+        })
 
         const onLogin = async () => {
             if(!email.value || !password.value) {
@@ -40,9 +45,14 @@ export default {
             try {
                 loading.value = true
                 const { user } = await auth.signInWithEmailAndPassword(email.value, password.value)
-                console.log(user.uid)
+                
+                // get user info
+                const doc = await USER_COLEECTION.doc(user.uid).get()
+                store.commit('SET_USER', doc.data())
+                console.log(store.state.user)
+
                 // 로그인정보 초기화 (뒤로가기 방지)
-                router.replace('/')
+                // router.replace('/')
             // 에러처리
             } catch (e) {
                 switch (e.code) {
