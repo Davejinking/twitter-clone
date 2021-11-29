@@ -41,7 +41,7 @@
         </div>
     </div>
 
-      <!-- chatting -->
+    <!-- chatting -->
     <div class="w-3/5 border-r border-gray-100">
         <div class="flex flex-col h-screen">
             <!-- title -->
