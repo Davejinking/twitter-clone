@@ -39,9 +39,7 @@
                 <div class="flex flex-col items-start space-y-1">
                     <!-- 라우터 링크 -->
                     <router-link
-                        :to="route.path" 
-                        class="hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full cursor-pointer"
-                        v-for="route in routes" :key="route"
+                        :to="route.path" :class="`hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full cursor-pointer ${router.currentRoute.value.name == route.name ? 'text-primary' : ''}`" v-for="route in routes" :key="route"
                     >
                     <div v-if="route.meta.isMenu">
                         <i :class="route.icon"></i>
@@ -64,12 +62,12 @@
                 <!-- 프로필 이미지(화면 크기 기본형) -->
                 <button class="hidden xl:flex mt-3 px-2 py-1 w-full h-12 rounded-full hover:bg-blue-50 items-center">
                     <!-- 프로필 이미지 -->
-                    <img src="http://picsum.photos/100" class="w-10 h-10 rounded-full">
+                    <img :src="currentuser.profile_image_url" class="w-10 h-10 rounded-full">
 
                     <!-- 프로필 상세내용(메일,이름) -->
                     <div class="ml-2 hidden xl:block">
-                        <div class="text-sm font-bole">mage.com</div>
-                        <div class="text-xs text-gray-500 text-left">@mage</div>
+                        <div class="text-sm font-bole">{{currentuser.email}}</div>
+                        <div class="text-xs text-gray-500 text-left">@{{currentuser.username}}</div>
                     </div>
 
                     <!-- 프로필(옵션) -->
@@ -78,7 +76,7 @@
 
                 <!-- 프로필 이미지(화면 크기 반응형) -->
                 <div class="xl:hidden flex justify-center">
-                    <img src="http://picsum.photos/100" class="w-10 h-10 rounded-full cursor-pointer hover:opacity-80">
+                    <img :src="currentuser.profile_image_url" class="w-10 h-10 rounded-full cursor-pointer hover:opacity-80">
                 </div>
             </div>
         </div>
@@ -91,20 +89,20 @@
         <!-- 프로필 드롭다운 메뉴 -->
         <div class="absolute bottom-20 left-12 shadow rounded-lg w-60 bg-white" v-if="showProfileDropdown" @click="showProfileDropdown = false">
             <button class="hover:bg-gray-50 border-b border-gray-100 flex p-3 w-full items-center">
-            <img src="http://picsum.photos/200" class="w-10 h-10 rounded-full" />
+            <img :src="currentuser.profile_image_url"  class="w-10 h-10 rounded-full" />
             <div class="ml-2">
-                <div class="font-bold text-sm">mage@mage.com</div>
-                <div class="text-left text-gray-500 text-sm">@mage</div>
+                <div class="font-bold text-sm">{{currentuser.email}}</div>
+                <div class="text-left text-gray-500 text-sm">@{{currentuser.username}}</div>
             </div>
             <i class="fas fa-check text-primary ml-auto"></i>
             </button>
-            <button class="p-3 hover:bg-gray-50 w-full text-left text-sm" @click="onLogout">@mage 계정에서 로그아웃</button>
+            <button class="p-3 hover:bg-gray-50 w-full text-left text-sm" @click="onLogout">@{{currentuser.username}} 계정에서 로그아웃</button>
         </div>
     </div>
 </template>
 
 <script>
-import { ref, onBeforeMount } from 'vue'
+import { ref, onBeforeMount, computed } from 'vue'
 import router from '../router'
 import { auth } from '../firebase'
 import store from '../store'
@@ -113,6 +111,8 @@ export default {
   setup() {
     const routes = ref([])
     const showProfileDropdown = ref(false)
+
+    const currentuser = computed(() => store.state.user)
 
     // 로그아웃
     const onLogout = async () => {
@@ -124,7 +124,7 @@ export default {
     onBeforeMount(() => {
       routes.value = router.options.routes
     })
-    return { routes, showProfileDropdown, onLogout }
+    return { routes, showProfileDropdown, onLogout, currentuser, router }
   },
 }
 </script>
