@@ -19,3 +19,5 @@ const firebaseConfig = {
 
   // 유저정보
   export const USER_COLEECTION = db.collection("users")
+  // 트윗정보
+  export const TWEET_COLEETION = db.collection("tweets")

@@ -3,7 +3,7 @@
     <div class="flex px-3 py-3 border-b border-gray-100 hover:bg-gray-50 cursor-pointer">
         <!-- 프로필 이미지 --> 
         <img 
-            src="http://picsum.photos/200" 
+            :src="currentUser.profile_image_url" 
             class="w-10 h-10 rounded-full hover:opacity-80 cursor-pointer"
         >
         <!-- 트윗 입력란--> 
@@ -50,7 +50,7 @@
 
 <script>
 export default {
-
+    props: ['currentUser'],
 }
 </script>
 
