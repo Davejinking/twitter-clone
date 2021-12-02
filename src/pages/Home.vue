@@ -28,7 +28,7 @@
             </div>
 
             <!-- 트윗 내용 --> 
-            <Tweet v-for="tweet in 5" key:="tweet" :currentUser="currentUser" />
+            <Tweet :currentUser="currentUser" :tweet="tweet" v-for="tweet in tweets" :key="tweet.id" />
         </div>
     </div>
     <!-- 트렌드 섹션  --> 
@@ -38,7 +38,7 @@
 <script>
 import Trends from '../components/Trends.vue'
 import Tweet from '../components/Tweet.vue'
-import { ref, computed } from 'vue'
+import { ref, computed, onBeforeMount } from 'vue'
 import store from '../store'
 import { TWEET_COLEETION } from '../firebase'
 
@@ -47,7 +47,24 @@ export default {
     setup() {
         const tweetBody = ref('')
         const currentUser = computed(() => store.state.user)
+        const tweets = ref([])
 
+        // 스냅샷처리
+        onBeforeMount(() => {
+            TWEET_COLEETION.orderBy('created_at', 'desc').onSnapshot(snapshot => {
+                snapshot.docChanges().forEach(change => {
+                    if (change.type === 'added') {
+                        tweets.value.splice(change.newIndex, 0, change.doc.data())
+                    } else if (change.type === 'modified') {
+                        tweets.value.splice(change.olodIndex, 1, change.doc.data())
+                    } else if (change.type === 'removed') {
+                        tweets.value.splice(change.olodIndex, 1)
+                    }
+                })
+            })
+        })
+
+        // 트윗등록처리
         const onAddTweet = async () => {
             try{
                 const doc = TWEET_COLEETION.doc()
@@ -66,7 +83,7 @@ export default {
             }
         }
 
-        return { currentUser, tweetBody, onAddTweet }
+        return { currentUser, tweetBody, onAddTweet, tweets }
     },
 }
 </script>
