@@ -1,38 +1,26 @@
 <template>
-    <!-- 메인 섹션(외부) --> 
-    <div class="flex-1 border-r border-gray-100 overflow-y-auto">
-        <!-- 메인 섹션(내부) --> 
-        <div class="flex flex-col">
-            <!-- 메인 타이틀(home) --> 
-            <div class="border-b border-gray-100 px-3 py-2 font-bold text-lg">홈</div>
-
-            <!-- 트위팅 섹션(메세지 입력) --> 
-            <div class="flex px-3 py-3 border-b-8 border-gray-100">
-                <!-- 프로필 이미지 --> 
-                <img :src="currentUser.profile_image_url"
-                    class="w-10 h-10 rounded-full hover:opacity-80 cursor-pointer">
-
-                <!-- 메세지 화면 --> 
-                <div class="ml-2 flex-1 flex flex-col">
-                    <!-- 메세지 입력란 --> 
-                    <textarea v-model="tweetBody"
-                        placeholder="무슨 일이 일어나고 있나요?"
-                        class="w-full text-lg font-bold focus:outline-none mb-3 resize-none"
-                    ></textarea>
-                    <!-- 트윗버튼 --> 
-                    <div class="text-right">
-                        <button v-if="!tweetBody.length" class="bg-light text-sm font-bold text-white px-4 py-1 rounded-full">트윗</button>
-                        <button v-else @click="onAddTweet" class="bg-primary hover:bg-dark text-sm font-bold text-white px-4 py-1 rounded-full">트윗</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 트윗 내용 --> 
-            <Tweet :currentUser="currentUser" :tweet="tweet" v-for="tweet in tweets" :key="tweet.id" />
+  <!-- main part -->
+  <div class="flex-1 border-r border-gray-100 overflow-y-auto">
+    <div class="flex flex-col">
+      <!-- page title -->
+      <div class="border-b border-gray-100 px-3 py-2 font-bold text-lg">홈</div>
+      <!-- tweeting section -->
+      <div class="flex px-3 py-3 border-b-8 border-gray-100">
+        <img :src="currentUser.profile_image_url" class="w-10 h-10 rounded-full hover:opacity-80 cursor-pointer" />
+        <div class="ml-2 flex-1 flex flex-col">
+          <textarea v-model="tweetBody" placeholder="무슨 일이 일어나고 있나요?" class="w-full text-lg font-bold focus:outline-none mb-3 resize-none"></textarea>
+          <div class="text-right">
+            <button v-if="!tweetBody.length" class="bg-light text-sm font-bold text-white px-4 py-1 rounded-full">트윗</button>
+            <button v-else @click="onAddTweet" class="bg-primary hover:bg-dark text-sm font-bold text-white px-4 py-1 rounded-full">트윗</button>
+          </div>
         </div>
+      </div>
+      <!-- tweets -->
+      <Tweet :currentUser="currentUser" :tweet="tweet" v-for="tweet in tweets" :key="tweet.id" />
     </div>
-    <!-- 트렌드 섹션  --> 
-    <Trends />
+  </div>
+  <!-- trend part -->
+  <Trends />
 </template>
 
 <script>
@@ -40,54 +28,55 @@ import Trends from '../components/Trends.vue'
 import Tweet from '../components/Tweet.vue'
 import { ref, computed, onBeforeMount } from 'vue'
 import store from '../store'
-import { TWEET_COLEETION } from '../firebase'
-
+import { TWEET_COLEECTION, USER_COLEECTION } from '../firebase'
 export default {
-    components: { Trends, Tweet },
-    setup() {
-        const tweetBody = ref('')
-        const currentUser = computed(() => store.state.user)
-        const tweets = ref([])
-
-        // 스냅샷처리
-        onBeforeMount(() => {
-            TWEET_COLEETION.orderBy('created_at', 'desc').onSnapshot(snapshot => {
-                snapshot.docChanges().forEach(change => {
-                    if (change.type === 'added') {
-                        tweets.value.splice(change.newIndex, 0, change.doc.data())
-                    } else if (change.type === 'modified') {
-                        tweets.value.splice(change.olodIndex, 1, change.doc.data())
-                    } else if (change.type === 'removed') {
-                        tweets.value.splice(change.olodIndex, 1)
-                    }
-                })
-            })
+  components: { Trends, Tweet },
+  setup() {
+    const tweetBody = ref('')
+    const currentUser = computed(() => store.state.user)
+    const tweets = ref([])
+    onBeforeMount(() => {
+      TWEET_COLEECTION.orderBy('created_at', 'desc').onSnapshot((snapshot) => {
+        snapshot.docChanges().forEach(async (change) => {
+          let tweet = await getUserInfo(change.doc.data())
+          if (change.type === 'added') {
+            tweets.value.splice(change.newIndex, 0, tweet)
+          } else if (change.type === 'modified') {
+            tweets.value.splice(change.oldIndex, 1, tweet)
+          } else if (change.type === 'removed') {
+            tweets.value.splice(change.oldIndex, 1)
+          }
         })
-
-        // 트윗등록처리
-        const onAddTweet = async () => {
-            try{
-                const doc = TWEET_COLEETION.doc()
-                await doc.set({
-                    id: doc.id,
-                    tweet_body: tweetBody.value,
-                    uid: currentUser.value.uid,
-                    created_at: Date.now(),
-                    num_comments: 0,
-                    num_retweets: 0,
-                    num_likes: 0,
-                })
-                tweetBody.value = ''
-            } catch (e) {
-                console.log('on add tweet error on homepage:', e)
-            }
-        }
-
-        return { currentUser, tweetBody, onAddTweet, tweets }
-    },
+      })
+    })
+    const getUserInfo = async (tweet) => {
+      const doc = await USER_COLEECTION.doc(tweet.uid).get()
+      tweet.profile_image_url = doc.data().profile_image_url
+      tweet.email = doc.data().email
+      tweet.username = doc.data().username
+      // tweet = { ...tweet, ...doc.data() }
+      return tweet
+    }
+    const onAddTweet = async () => {
+      try {
+        const doc = TWEET_COLEECTION.doc()
+        await doc.set({
+          id: doc.id,
+          tweet_body: tweetBody.value,
+          uid: currentUser.value.uid,
+          created_at: Date.now(),
+          num_comments: 0,
+          num_retweets: 0,
+          num_likes: 0,
+        })
+        tweetBody.value = ''
+      } catch (e) {
+        console.log('on add tweet error on homepage:', e)
+      }
+    }
+    return { currentUser, tweetBody, onAddTweet, tweets }
+  },
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

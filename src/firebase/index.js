@@ -16,8 +16,6 @@ const firebaseConfig = {
   export const auth = firebase.auth()
   export const db = firebase.firestore()
   export const stroage = firebase.storage()
-
-  // 유저정보
-  export const USER_COLEECTION = db.collection("users")
-  // 트윗정보
-  export const TWEET_COLEETION = db.collection("tweets")
+  
+  export const USER_COLEECTION = db.collection('users')
+  export const TWEET_COLEECTION = db.collection('tweets')

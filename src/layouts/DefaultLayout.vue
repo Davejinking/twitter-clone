@@ -50,7 +50,9 @@
 
                 <!-- tweet 버튼 -->
                 <div class="w-full xl:pr-3 flex justify-center">
-                    <button class=" mt-3 bg-primary text-white xl:w-full w-12 h-12 rounded-full hover:bg-dark">
+                    <button 
+                        @click="showTweetModal = true"
+                        class = "mt-3 bg-primary text-white xl:w-full w-12 h-12 rounded-full hover:bg-dark">
                         <span class="hidden xl:block">트윗</span>
                         <i class="fas fa-plus xl:hidden"></i>
                     </button>
@@ -98,6 +100,9 @@
             </button>
             <button class="p-3 hover:bg-gray-50 w-full text-left text-sm" @click="onLogout">@{{currentuser.username}} 계정에서 로그아웃</button>
         </div>
+
+        <!-- 트윗 모달 팝업창  -->
+        <tweet-modal v-if="showTweetModal" @close-modal="showTweetModal = false"></tweet-modal>
     </div>
 </template>
 
@@ -106,12 +111,16 @@ import { ref, onBeforeMount, computed } from 'vue'
 import router from '../router'
 import { auth } from '../firebase'
 import store from '../store'
+import TweetModal from '../components/TweetModal.vue'
 
 export default {
+  components: { TweetModal },
   setup() {
     const routes = ref([])
+    // 초기값 false설정(버튼 눌렀을때 값을 true)
     const showProfileDropdown = ref(false)
-
+    const showTweetModal = ref(false)
+    // 유저정보 가져오기
     const currentuser = computed(() => store.state.user)
 
     // 로그아웃
@@ -124,7 +133,8 @@ export default {
     onBeforeMount(() => {
       routes.value = router.options.routes
     })
-    return { routes, showProfileDropdown, onLogout, currentuser, router }
+    // setup에서 설정한 함수를 return에 넣어서 반환(밖에서 사용할수있도록)
+    return { routes, showProfileDropdown, onLogout, currentuser, router, showTweetModal }
   },
 }
 </script>
