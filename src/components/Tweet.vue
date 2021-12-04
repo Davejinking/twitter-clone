@@ -13,33 +13,46 @@
       <div>{{ tweet.tweet_body }}</div>
       <!-- tweet actions -->
       <div class="flex justify-between">
-        <div class="text-gray-500 hover:text-primary">
+        <!-- 코멘트 버튼 -->
+        <div @click="showCommentModal = true" class="text-gray-500 hover:text-primary">
           <i class="far fa-comment hover:bg-blue-50 rounded-full p-2"></i>
           <span class="ml-1 text-sm">{{ tweet.num_comments }}</span>
         </div>
+        <!-- 트윗 버튼 -->
         <div class="text-gray-500 hover:text-green-500">
           <i class="fas fa-retweet hover:bg-green-50 rounded-full p-2"></i>
           <span class="ml-1 text-sm">{{ tweet.num_retweets }}</span>
         </div>
+        <!-- 라이크 버튼 -->
         <div class="text-gray-500 hover:text-red-500">
           <i class="far fa-heart hover:bg-red-50 rounded-full p-2"></i>
           <span class="ml-1 text-sm">{{ tweet.num_likes }}</span>
         </div>
+        <!-- 쉐어 버튼 -->
         <div class="text-gray-500 hover:text-primary">
           <i class="far fa-share-square hover:bg-blue-50 rounded-full p-2"></i>
         </div>
       </div>
     </div>
   </div>
+  <!-- 코멘트 모달 -->
+  <comment-modal v-if="showCommentModal" @close-modal="showCommentModal = false"></comment-modal>
 </template>
 
 <script>
 import moment from 'moment'
+import { ref } from 'vue'
+import commentModal from './CommentModal.vue'
+
 export default {
+  components: { commentModal },
   props: ['currentUser', 'tweet'],
   setup() {
+    const showCommentModal = ref(false)
+
     return {
       moment,
+      showCommentModal,
     }
   },
 }
