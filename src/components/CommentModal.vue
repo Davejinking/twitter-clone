@@ -19,19 +19,19 @@
             <div class="flex px-4 pt-4 pb-3">
                 <!-- 프로필 이미지 -->
                 <div class="flex flex-col">
-                    <img :src="currentUser.profile_image_url" class="w-10 h-10 rounded-full hover:opacity-80 cursor-pointer" />
+                    <img :src="tweet.profile_image_url" class="w-10 h-10 rounded-full hover:opacity-80 cursor-pointer" />
                     <div class="ml-5 w-0.5 h-full bg-gray-300 mt-2 -mb-2"></div>
                 </div>
                 <div class="ml-2 flex-1">
                     <div class="flx space-x-2">
-                        <span class="font-bold text-sm">mage</span>
-                        <span class="text-gray text-sm">@mage</span>
-                        <span class="text-gray text-sm">1시간</span>
+                        <span class="font-bold text-sm">{{ tweet.email}}</span>
+                        <span class="text-gray text-sm">@{{tweet.username}}</span>
+                        <span class="text-gray text-sm">{{ moment(tweet.created_at).fromNow() }}</span>
                     </div>
-                    <div class="">누구인가?</div>
+                    <div class="text-sm"> {{ tweet.tweet_body }}</div>
                     <div>
-                        <span class="text-primary text-sm">@mage </span>
-                        <span class="text-gray text-sm">님에게 보내는 답글</span>
+                        <span class="text-primary text-sm">@{{ tweet.username }}</span>
+                        <span class="text-gray text-sm"> 님에게 보내는 답글</span>
                     </div>
                 </div>
             </div>
@@ -60,8 +60,10 @@
 import { computed, ref } from 'vue'
 import addTweet from '../utils/addTweet'
 import store from '../store'
+import moment from 'moment'
 
 export default {
+    props: ['tweet'],
     setup(props, { emit }) {
         // 초기화
         const tweetBody = ref('')
@@ -87,6 +89,7 @@ export default {
             tweetBody,
             onAddTweet,
             currentUser,
+            moment,
         }
     },
 }

@@ -36,7 +36,7 @@
     </div>
   </div>
   <!-- 코멘트 모달 -->
-  <comment-modal v-if="showCommentModal" @close-modal="showCommentModal = false"></comment-modal>
+  <comment-modal :tweet="tweet" v-if="showCommentModal" @close-modal="showCommentModal = false"></comment-modal>
 </template>
 
 <script>
