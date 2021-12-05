@@ -11,7 +11,7 @@
                 <!-- 트윗 버튼(화면사이즈 스몰일때)-->
                 <div class="text-right sm:hidden mr-2">
                     <button v-if="!tweetBody.length" class="bg-light text-sm font-bold text-white px-4 py-1 rounded-full">답글</button>
-                    <button v-else @click="onAddTweet" class="bg-primary hover:bg-dark text-sm font-bold text-white px-4 py-1 rounded-full">답글</button>
+                    <button v-else @click="onCommentTweet" class="bg-primary hover:bg-dark text-sm font-bold text-white px-4 py-1 rounded-full">답글</button>
                 </div>
             </div>
         <div>
@@ -45,7 +45,7 @@
                     <!-- 트윗 버튼(화면사이즈 평상시일때) -->
                     <div class="text-right hidden sm:block">
                         <button v-if="!tweetBody.length" class="bg-light text-sm font-bold text-white px-4 py-1 rounded-full">답글</button>
-                        <button v-else @click="onAddTweet" class="bg-primary hover:bg-dark text-sm font-bold text-white px-4 py-1 rounded-full">답글</button>
+                        <button v-else @click="onCommentTweet" class="bg-primary hover:bg-dark text-sm font-bold text-white px-4 py-1 rounded-full">답글</button>
                     </div>
                 </div>
             </div>
@@ -58,9 +58,11 @@
 
 <script>
 import { computed, ref } from 'vue'
-import addTweet from '../utils/addTweet'
+// import addTweet from '../utils/addTweet'
 import store from '../store'
 import moment from 'moment'
+import {COMMENT_COLEECTION, TWEET_COLEECTION} from '../firebase'
+import firebase from 'firebase'
 
 export default {
     props: ['tweet'],
@@ -70,24 +72,31 @@ export default {
         // 유저정보가져오기
         const currentUser = computed(() => store.state.user)
         // console.log("1currentUser:"+JSON.stringify(currentUser.value.profile_image_url)) // 콘솔로그확인
-
         // 트윗버튼눌렀을때
-        const onAddTweet = async () => {
-            // 성공시 트윗보디 초기화 (모달 닫기)
+        const onCommentTweet = async () => {
             try {
-                // 인자넘겨서 공통함수처리
-                await addTweet(tweetBody.value, currentUser.value)
-                tweetBody.value = ''
-                emit('close-modal')
-            // 실패시 에러
-            } catch (e) {
-                console.log('on add tweet error on homepage:', e)
-            }
+            const doc = COMMENT_COLEECTION.doc()
+            await doc.set({
+                id: doc.id ,
+                from_tweet_id: props.tweet.id,
+                comment_tweet_body: tweetBody.value,
+                uid: currentUser.value.uid,
+                created_at: Date.now()
+            })
+
+            await TWEET_COLEECTION.doc(props.tweet.id).update({
+                // commnts를 +1 하기(frirebase공식문서 찾아보기)
+                "num_comments": firebase.firestore.FieldValue.increment(1),
+            })
+            emit('close-modal')
+        } catch(e) {
+            console.log("on comment tweet error:", e)
         }
+    }
         // 함수반환(setup에 설정한 함수는 꼭 리턴에 등록)
         return {
             tweetBody,
-            onAddTweet,
+            onCommentTweet,
             currentUser,
             moment,
         }
