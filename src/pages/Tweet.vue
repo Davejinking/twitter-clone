@@ -100,8 +100,9 @@ export default {
         }
         onBeforeMount(async() => {
             await TWEET_COLEECTION.doc(route.params.id).onSnapshot(async(doc) => {
-                const t = await getTweetInfo(doc.data(), currentUser.value)
-                tweet.value = t
+                // const t = await getTweetInfo(doc.data(), currentUser.value)
+                // tweet.value = t
+                tweet.value = await getTweetInfo(doc.data(), currentUser.value)
             })
 
             COMMENT_COLEECTION.orderBy('created_at', 'desc').onSnapshot((snapshot) => {
