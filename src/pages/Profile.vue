@@ -1,28 +1,16 @@
-<!--
-    * class 정리내용 *
-    relative:
-    absolute:
-    -bottom-14
-    w-28 
-    h-28
-    font-semibold
-    flex-none
-
-
--->
 <template>
-    <div class="flex flex-1">
+    <div class="flex flex-1" v-if="profileUser">
         <!-- 프로필 섹션 -->
         <div class="flex flex-1 flex-col border-r border-color">
             <!-- 타이틀 -->
             <div class="px-3 py-1 flex border-b border-color">
-                <button class="mr-4">
+                <button class="mr-4" @click="router.go(-1)">
                     <i class="fas fa-arrow-left text-primary rounded-full hover:bg-blue-50"></i>
                 </button>
                 <!-- 프로필 정보 -->
                 <div>
-                    <div class="font-semibold text-lg">{{ currentUser.email }}</div>
-                    <div class="text-xs text-gray">{{ currentUser.num_tweets }} 트윗</div>
+                    <div class="font-semibold text-lg">{{ profileUser.email }}</div>
+                    <div class="text-xs text-gray">{{ profileUser.num_tweets }} 트윗</div>
                 </div>
             </div>
             <!-- 백그라운드 이미지 -->
@@ -30,7 +18,7 @@
                 <!-- 프로필 이미지 -->
                 <div class="border-4 border-white bg-gray-100 w-28 h-28 rounded-full absolute -bottom-14 left-2">
                     <img
-                        :src="currentUser.profile_image_url"
+                        :src="profileUser.profile_image_url"
                         class="rounded-full opacity-90 hover:opacity-100 cursor-pointer"
                     >
                 </div>
@@ -41,16 +29,16 @@
             </div>
             <!-- 유저정보 -->
             <div class="mx-2 mt-3">
-                <div class="font-extrabold text-lg">{{ currentUser.email }}</div>
-                <div class="text-gray">@{{ currentUser.username }}</div>
+                <div class="font-extrabold text-lg">{{ profileUser.email }}</div>
+                <div class="text-gray">@{{ profileUser.username }}</div>
                 <div>
                     <span class="text-gray">가입일:</span>
-                    <span class="text-gray">{{ moment(currentUser.created_at).format('YYYY년 MM월 DD일') }}</span>
+                    <span class="text-gray">{{ moment(profileUser.created_at).format('YYYY년 MM월 DD일') }}</span>
                 </div>
                 <div>
-                    <!-- <span class="font-bold mr-1">{{ currentUser.followings.length }}</span> -->
+                    <!-- <span class="font-bold mr-1">{{ profileUser.followings.length }}</span> -->
                     <span class="text-gray mr-3">팔로우 중</span>
-                    <!-- <span class="font-bold mr-1">{{ currentUser.followers.length }}</span> -->
+                    <!-- <span class="font-bold mr-1">{{ profileUser.followers.length }}</span> -->
                     <span class="text-gray">팔로우</span>
                 </div>
             </div>
@@ -83,24 +71,30 @@ import { computed, onBeforeMount, ref } from 'vue'
 import { LIKE_COLEECTION, RETWEET_COLEECTION, TWEET_COLEECTION, USER_COLEECTION } from '../firebase'
 import getTweetInfo from '../utils/getTweetInfo'
 import moment from 'moment'
+import { useRoute } from 'vue-router'
+import router from '../router'
 
 export default {
     components: { Trends, Tweet, onBeforeMount },
     setup() {
         const currentUser = computed(() => store.state.user)
+        const profileUser = ref(null)
         const tweets = ref([])
         const reTweets = ref([])
         const likeTweets = ref([])
         const currentTab = ref('tweet')
+        const route = useRoute()
 
         onBeforeMount(() => {
+            const profileUID = route.params.uid ?? currentUser.value.uid
+
             // 스토어에 실시간반영
-            USER_COLEECTION.doc(currentUser.value.uid).onSnapshot((doc) => {
-                store.commit('SET_USER', doc.data())
+            USER_COLEECTION.doc(profileUID).onSnapshot((doc) => {
+                profileUser.value = doc.data()
             })
 
             // 트윗 정보 가져오기
-            TWEET_COLEECTION.where('uid', '==', currentUser.value.uid)
+            TWEET_COLEECTION.where('uid', '==', profileUID)
             .orderBy('created_at', 'desc')
             .onSnapshot((snapshot) => {
                 snapshot.docChanges().forEach(async (change) => {
@@ -117,7 +111,7 @@ export default {
             })
 
             // 리트윗 정보 가져오기
-            RETWEET_COLEECTION.where('uid', '==', currentUser.value.uid)
+            RETWEET_COLEECTION.where('uid', '==', profileUID)
             .orderBy('created_at', 'desc')
             .onSnapshot((snapshot) => {
                 snapshot.docChanges().forEach(async (change) => {
@@ -135,7 +129,7 @@ export default {
             })
 
             // 좋아요 정보 가져오기
-            LIKE_COLEECTION.where('uid', '==', currentUser.value.uid)
+            LIKE_COLEECTION.where('uid', '==', profileUID)
             .orderBy('created_at', 'desc')
             .onSnapshot((snapshot) => {
                 snapshot.docChanges().forEach(async (change) => {
@@ -160,6 +154,8 @@ export default {
             reTweets,
             likeTweets,
             currentTab,
+            profileUser,
+            router,
         }
     }
 }
