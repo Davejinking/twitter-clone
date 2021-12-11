@@ -1,9 +1,3 @@
-<!--
-    animate-bounce :
-    @click="onRegister" :
-    <i :class :사용할때 class부분을 `로 감싸서 사용하기
- -->
-
 <template>
   <div class="flex flex-col items-center space-y-4 mt-10">
     <i :class="`fab fa-twitter text-4xl text-primary ${loading ? 'animate-bounce' : ''}` "></i>
@@ -49,6 +43,7 @@ export default {
                     username: username.value,
                     email: email.value,
                     profile_image_url: '/profile.jpeg',
+                    background_image_url: '/background.png',
                     num_tweets: 0,
                     follwers: [],
                     followings: [],

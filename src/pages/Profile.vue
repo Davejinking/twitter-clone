@@ -14,18 +14,19 @@
                 </div>
             </div>
             <!-- 백그라운드 이미지 -->
-            <div class="bg-gray-300 h-40 relative flex-none">
+            <div class="bg-gray-300 h-48 relative flex-none">
+                <img :src="profileUser.background_image_url" class="w-full h-48 object-cover">
                 <!-- 프로필 이미지 -->
                 <div class="border-4 border-white bg-gray-100 w-28 h-28 rounded-full absolute -bottom-14 left-2">
                     <img
                         :src="profileUser.profile_image_url"
-                        class="rounded-full opacity-90 hover:opacity-100 cursor-pointer"
+                        class="w-full h-full rounded-full opacity-90 hover:opacity-100 cursor-pointer"
                     >
                 </div>
             </div>
             <!-- 프로필 편집 버튼 -->
-            <div class="text-right mt-2 mr-2 ">
-                <button class="border text-sm border-primary text-primary px-3 py-1 hover:bg-blue-50 font-bold rounded-full">프로필 수정</button>
+            <div class="text-right mt-2 mr-2 h-14">
+                <button v-if="currentUser.uid === profileUser.uid" @click="showProgileEditModal = true" class="border text-sm border-primary text-primary px-3 py-1 hover:bg-blue-50 font-bold rounded-full">프로필 수정</button>
             </div>
             <!-- 유저정보 -->
             <div class="mx-2 mt-3">
@@ -61,7 +62,7 @@
         <!-- 트렌드 섹션 -->
         <Trends />
         <!-- 프로필 수정  -->
-        <Profile-edit-modal/>
+        <Profile-edit-modal v-if="showProgileEditModal" @close-modal="showProgileEditModal=false" />
     </div>
 </template>
 
@@ -87,6 +88,7 @@ export default {
         const likeTweets = ref([])
         const currentTab = ref('tweet')
         const route = useRoute()
+        const showProgileEditModal = ref(false)
 
         onBeforeMount(() => {
             const profileUID = route.params.uid ?? currentUser.value.uid
@@ -159,6 +161,7 @@ export default {
             currentTab,
             profileUser,
             router,
+            showProgileEditModal,
         }
     }
 }
