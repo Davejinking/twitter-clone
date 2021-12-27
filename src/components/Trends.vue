@@ -6,18 +6,23 @@
             placeholder="트위터 검색"
             type="text"
             class="pl-10 rounded-full w-full p-2 bg-gray-100 text-sm focus:ring-1 focus:ring-primary focus:bg-white focus:outline-none"
-        >
-        <i class="fas fa-search absolute left-0 mt-2 ml-3 text-sm"></i>
+      />
+      <i class="fas fa-search absolute left-0 mt-2 ml-3 text-sm text-light"></i>
     </div>
     <!-- 나를 위한 트렌드  --> 
     <div class="w-full rounded-xl bg-gray-50 flex flex-col">
-        <div class="flex items-center justify-between px-3 py-1 border-b border-gray-100">
+      <div
+        class="flex items-center justify-between px-3 py-1 border-b border-gray-100"
+      >
             <span class="text-lg font-bold">나를 위한 트렌드</span>
-            <i class="text-center fas fa-cog text-lg text-primary hover:bg-blue-50 p-2 rounded-full"></i>
+        <i
+          class="text-center fas fa-cog text-lg text-primary hover:bg-blue-50 p-2 rounded-full w-10 h-10"
+        ></i>
         </div>
         <div 
             class="border-b border-gray-100 hover:bg-gray-100 px-4 py-2 cursor-pointer"
-            v-for="trend in 3" :key="trend"
+        v-for="trend in 3"
+        :key="trend"
         >
             <div class="flex">
                 <div class="flex-1 flex flex-col">
@@ -52,7 +57,9 @@
                     <div class="text-gray-500 text-sm">@yamajyaki</div>
                 </div>
                 <div>
-                    <button class="border-2 border-primary hover:bg-bule-100 px-2 py-1 rounded-full text-primary text-sm">
+            <button
+              class="border-2 border-primary hover:bg-blue-100 px-2 py-1 rounded-full text-primary text-sm"
+            >
                         팔로우
                     </button>
                 </div>
@@ -66,11 +73,7 @@
 </template>
 
 <script>
-export default {
-
-}
+export default {}
 </script>
 
-<style>
-
-</style>
+<style></style>

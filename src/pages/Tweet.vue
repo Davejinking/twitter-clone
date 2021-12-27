@@ -1,7 +1,7 @@
 <template>
   <div class="flex-1 flex">
-    <div class="flex-1 border-r border border-gray-100">
-        <div class="filx flex-col"  v-if="tweet">
+    <div class="flex-1 border-r border-gray-100">
+        <div class="flex flex-col"  v-if="tweet">
             <!-- title -->
             <div class="flex items-center px-3 py-2 border-b border-gray-100">
                 <button @click="router.go(-1)">
@@ -11,20 +11,20 @@
             </div>
             <!-- tweet -->
             <div class="px-3 py-2 flex">
-                <img :src="tweet.profile_image_url" class="w-10 h-10 rounded-full hover:opactiy-90 cursor-pointer">
+                <img :src="tweet.profile_image_url" class="w-10 h-10 rounded-full hover:opacity-90 cursor-pointer"/>
                 <div class="ml-2">
                     <div class="font-bold">{{ tweet.email }}</div>
-                    <div class="text-gray-400 text-sm">@{{ tweet.username}}</div>
+                    <div class="text-gray text-sm">@{{ tweet.username}}</div>
                 </div>
             </div>
             <div class="px-3 py-2">{{ tweet.tweet_body }}</div>
-            <div class="px-3 py-2 text-gray-400 text-xs">{{moment(tweet.created_at).fromNow()}}</div>
+            <div class="px-3 py-2 text-gray text-xs">{{moment(tweet.created_at).fromNow()}}</div>
             <div class="h-px w-full bg-gray-100"></div>
             <div class="flex space-x-2 px-3 py-2 items-center">
                 <span class="">{{tweet.num_retweets}}</span>
-                <span class="text-sm text-gray-400">리트윗</span>
-                <span class="text-lg ml-5">{{tweet.num_likes}}</span>
-                <span class="text-sm text-gray-400">마음에 들어요</span>
+                <span class="text-sm text-gray">리트윗</span>
+                <span class="ml-5">{{tweet.num_likes}}</span>
+                <span class="text-sm text-gray">마음에 들어요</span>
             </div>
             <div class="h-px w-full bg-gray-100"></div>
             <!-- buttons -->
@@ -44,11 +44,11 @@
             <div class="h-px w-full bg-gray-100"></div>
             <!-- comments -->
             <div v-for="comment in comments" :key="comment" class="flex hover:bg-gray-50 cursor-pointer px-3 py-3 border-b border-gray-100">
-                <img :src="comment.profile_image_url" class="w-10 h-10 rounded-full hover:opacity-90 cursor-pointer">
+                <img :src="comment.profile_image_url" class="w-10 h-10 rounded-full hover:opacity-90 cursor-pointer" />
                 <div class="ml-2 flex-1">
                     <div class="flex items-center space-x-2">
-                        <span class="font-blod">{{ comment.email }}</span>
-                        <span class="text-gray-400 text-sm">@{{ comment.username}}</span>
+                        <span class="font-bold">{{ comment.email }}</span>
+                        <span class="text-gray text-sm">@{{ comment.username}}</span>
                         <span>{{ moment(comment.created_at).fromNow() }}</span>
                     </div>
                     <div>{{ comment.comment_tweet_body }}</div>
@@ -59,7 +59,7 @@
             </div>
         </div>
     </div>
-    <Trends></Trends>
+    <trends></trends>
     <comment-modal :tweet="tweet" v-if = "showCommentModal" @close-modal="showCommentModal = false"></comment-modal>
 </div>
 </template>
@@ -69,7 +69,7 @@ import Trends from '../components/Trends.vue'
 import router from '../router'
 import { onBeforeMount, ref, computed} from 'vue'
 import store from '../store'
-import { COMMENT_COLEECTION, TWEET_COLEECTION } from '../firebase'
+import { COMMENT_COLLECTION, TWEET_COLEECTION } from '../firebase'
 import {useRoute} from 'vue-router'
 import getTweetInfo from '../utils/getTweetInfo'
 import moment from 'moment'
@@ -88,10 +88,10 @@ export default {
         const showCommentModal = ref(false)
 
         const route = useRoute()
-        const handleDeleteComment = async (commment) => {
-            if (confirm("코멘트를 삭제하시겠습니까?")) {
-                // delete commnet
-                await COMMENT_COLEECTION.doc(commment.id).delete()
+        const handleDeleteComment = async (comment) => {
+            if (confirm('코멘트를 삭제하시겠습니까?')) {
+                // delete comment
+                await COMMENT_COLLECTION.doc(comment.id).delete()
                 // decrease tweet num comments
                 await TWEET_COLEECTION.doc(comment.from_tweet_id).update({
                     num_comments : firebase.firestore.FieldValue.increment(-1),
@@ -100,12 +100,11 @@ export default {
         }
         onBeforeMount(async() => {
             await TWEET_COLEECTION.doc(route.params.id).onSnapshot(async(doc) => {
-                // const t = await getTweetInfo(doc.data(), currentUser.value)
-                // tweet.value = t
-                tweet.value = await getTweetInfo(doc.data(), currentUser.value)
+        const t = await getTweetInfo(doc.data(), currentUser.value)
+        tweet.value = t
             })
 
-            COMMENT_COLEECTION.orderBy('created_at', 'desc').onSnapshot((snapshot) => {
+            COMMENT_COLLECTION.orderBy('created_at', 'desc').onSnapshot((snapshot) => {
                 snapshot.docChanges().forEach(async (change) => {
                 let comment = await getTweetInfo(change.doc.data(),  currentUser.value)
 
@@ -124,6 +123,4 @@ export default {
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

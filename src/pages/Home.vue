@@ -35,7 +35,7 @@ export default {
   components: { Trends, Tweet },
   setup() {
     const tweetBody = ref('')
-    const currentUser = computed(() => store.state.user)
+    const currentUser = computed(() => store.state.user) 
     const tweets = ref([])
 
     onBeforeMount(() => {

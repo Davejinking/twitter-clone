@@ -1,7 +1,6 @@
 import { TWEET_COLEECTION, USER_COLEECTION } from '../firebase'
 import firebase from 'firebase'
 export default (tweetBody, currentUser) => {
-
     return new Promise(async (resolve, reject) => {
         try {
             const doc = TWEET_COLEECTION.doc()

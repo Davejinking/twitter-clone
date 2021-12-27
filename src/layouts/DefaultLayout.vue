@@ -1,33 +1,3 @@
-<!-- 
-    * class 정리내용 *
-        flex-col : 플렉스 항목을 세로로 배치
-        items-start : 교차축 시작 정렬
-        rounded-full: 레이아웃을 동글게만듬
-        fa-fw : 위치고정
-        space-y-1 : 스페이스 크기
-        justify-between: 각 항목 사이에 동일한 양의 공간이 있도록 컨테이너의 기본 축을 따라 항목을 정렬
-        사이드메뉴에서 아이콘과 트윗버튼을 하나의 태그로 묶어서 아래에있는 프로필과 별개로 나누어 사이가 벌어지도록 표시하기위해
-        justify-between를 사용했다.
-        justify-center:  항목 사이에 동일한 양의 공간이 있도록 컨테이너의 기본 축을 따라 가운데로 항목을 정렬
-        cursor-pointer: 마우스 선택효과
-        hover:opacity-80: 마우스 이벤트시 색 조절효과
-        hidden: 비표시하기
-        xl:block : xl크기일때 블록으로 만든다
-        xl:flex : xl크기일때 플렉스로 만든다
-        fa-plus : 플러스 아이콘
-        border-r : 
-        border-gray-100 :
-        space-x-1
-        fa-comment
-        overflow-y-auto : 스크롤바
-        relative:
-        absolute:
-        h-screen:
-        container: 여백줄이기?
-        mx-auto: 여백을 가운데로 하게만드는?
-        router-link
-
--->
 <template>
     <div class="flex h-screen container mx-auto relative">
         <!-- 사이드 메뉴 -->
@@ -38,21 +8,17 @@
                 <!-- 사이드메뉴 -->
                 <div class="flex flex-col items-start space-y-1">
                     <!-- 라우터 링크 -->
-                    <router-link
-                        :to="route.path" :class="`hover:text-primary hover:bg-bule-50 px-4 py-2 rounded-full cursor-pointer ${router.currentRoute.value.name == route.name ? 'text-primary' : ''}`" v-for="route in routes" :key="route"
-                    >
+			        <router-link :to="route.path" :class="`hover:text-primary hover:bg-blue-50 p-2 xl:px-4 xl:py-2 rounded-full cursor-pointer ${router.currentRoute.value.name == route.name ? 'text-primary' : ''}`" v-for="route in routes" :key="route">
                     <div v-if="route.meta.isMenu">
                         <i :class="route.icon"></i>
-                        <span class="ml-3 text-xl hidden xl:inline-block">{{ route.title }}</span>
+                        <span class="ml-5 text-xl hidden xl:inline-block">{{ route.title }}</span>
                     </div>
                     </router-link>
                 </div>
 
                 <!-- tweet 버튼 -->
                 <div class="w-full xl:pr-3 flex justify-center">
-                    <button 
-                        @click="showTweetModal = true"
-                        class = "mt-3 bg-primary text-white xl:w-full w-12 h-12 rounded-full hover:bg-dark">
+                    <button @click="showTweetModal = true" class="mt-3 bg-primary text-white xl:w-full w-12 h-12 rounded-full hover:bg-dark">
                         <span class="hidden xl:block">트윗</span>
                         <i class="fas fa-plus xl:hidden"></i>
                     </button>
@@ -61,25 +27,21 @@
 
             <!-- 프로필 화면 -->
             <div class="xl:pr-3 mb-3 relative" @click="showProfileDropdown = true">
-                <!-- 프로필 이미지(화면 크기 기본형) -->
-                <button class="hidden xl:flex mt-3 px-2 py-1 w-full h-12 rounded-full hover:bg-blue-50 items-center">
-                    <!-- 프로필 이미지 -->
-                    <img :src="currentuser.profile_image_url" class="w-10 h-10 rounded-full">
-
+                    <button class="hidden xl:flex mt-3 px-2 py-1 w-full h-12 rounded-full hover:bg-blue-50 items-center">
+          			<img :src="currentUser.profile_image_url" class="w-10 h-10 rounded-full" />
                     <!-- 프로필 상세내용(메일,이름) -->
-                    <div class="ml-2 hidden xl:block">
-                        <div class="text-sm font-bole">{{currentuser.email}}</div>
-                        <div class="text-xs text-gray-500 text-left">@{{currentuser.username}}</div>
-                    </div>
-
+			         <div class="xl:ml-2 hidden xl:block">
+			            <div class="text-sm font-bold">{{ currentUser.email }}</div>
+			            <div class="text-xs text-gray-500 text-left">@{{ currentUser.username }}</div>
+			          </div>
                     <!-- 프로필(옵션) -->
                     <i class="ml-auto fas fa-ellipsis-h fa-fw text-xs hidden xl:block"></i>
                 </button>
 
                 <!-- 프로필 이미지(화면 크기 반응형) -->
-                <div class="xl:hidden flex justify-center">
-                    <img :src="currentuser.profile_image_url" class="w-10 h-10 rounded-full cursor-pointer hover:opacity-80">
-                </div>
+		        <div class="xl:hidden flex justify-center">
+		          <img :src="currentUser.profile_image_url" class="w-10 h-10 rounded-full cursor-pointer hover:opacity-80" />
+		        </div>
             </div>
         </div>
 
@@ -91,14 +53,14 @@
         <!-- 프로필 드롭다운 메뉴 -->
         <div class="absolute bottom-20 left-12 shadow rounded-lg w-60 bg-white" v-if="showProfileDropdown" @click="showProfileDropdown = false">
             <button class="hover:bg-gray-50 border-b border-gray-100 flex p-3 w-full items-center">
-            <img :src="currentuser.profile_image_url"  class="w-10 h-10 rounded-full" />
+            <img :src="currentUser.profile_image_url"  class="w-10 h-10 rounded-full" />
             <div class="ml-2">
-                <div class="font-bold text-sm">{{currentuser.email}}</div>
-                <div class="text-left text-gray-500 text-sm">@{{currentuser.username}}</div>
+                <div class="font-bold text-sm">{{currentUser.email}}</div>
+                <div class="text-left text-gray-500 text-sm">@{{currentUser.username}}</div>
             </div>
             <i class="fas fa-check text-primary ml-auto"></i>
             </button>
-            <button class="p-3 hover:bg-gray-50 w-full text-left text-sm" @click="onLogout">@{{currentuser.username}} 계정에서 로그아웃</button>
+            <button class="p-3 hover:bg-gray-50 w-full text-left text-sm" @click="onLogout">@{{currentUser.username}} 계정에서 로그아웃</button>
         </div>
 
         <!-- 트윗 모달 팝업창  -->
@@ -121,7 +83,7 @@ export default {
     const showProfileDropdown = ref(false)
     const showTweetModal = ref(false)
     // 유저정보 가져오기
-    const currentuser = computed(() => store.state.user)
+    const currentUser = computed(() => store.state.user)
 
     // 로그아웃
     const onLogout = async () => {
@@ -131,10 +93,10 @@ export default {
     }
     // 값저장
     onBeforeMount(() => {
-      routes.value = router.options.routes
+      routes.value = router.options.routes.filter((route) => route.meta.isMenu == true)
     })
     // setup에서 설정한 함수를 return에 넣어서 반환(밖에서 사용할수있도록)
-    return { routes, showProfileDropdown, onLogout, currentuser, router, showTweetModal }
+    return { routes, showProfileDropdown, onLogout, currentUser, router, showTweetModal }
   },
 }
 </script>

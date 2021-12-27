@@ -13,7 +13,7 @@
 </template>
 
 <script>  
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { auth, USER_COLEECTION } from '../firebase'
 import { useRouter } from 'vue-router'
 import store from '../store'
