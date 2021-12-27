@@ -22,3 +22,12 @@
 
 9.호스팅 url확인하기
  구글 호스팅 생성후 연계
+
+
+예외:firebase use로 선택하기 프로젝트명 지정해주기 firebase use (프로젝트명)
+dave@davenoMac-mini 1my-project % firebase use
+Active Project: default (twitter-clone-ed30f)
+
+Project aliases for /Users/dave/Desktop/인프런공부/1my-project:
+
+* default (twitter-clone-ed30f)
